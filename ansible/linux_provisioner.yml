@@ -1,0 +1,38 @@
+# Provisions Linux instances during the Packer deployment
+---
+- hosts: default
+  tasks:
+    #    - name: Install
+    #      community.general.pacman:
+    #        name: "{{ item }}"
+    #        state: present
+    #      loop:
+    #        - xdg-user-dirs
+    - name: Set authorized key for remote user copying it from current user
+      ansible.posix.authorized_key:
+        user: cameron
+        state: present
+        key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
+    - name: Copy private key
+      ansible.builtin.copy:
+        src: '/home/cameron/.ssh/id_rsa'
+        dest: '/home/cameron/.ssh/id_rsa'
+        owner: cameron
+        group: cameron
+        mode: '0400'
+    - name: Create XDG default dirs
+      ansible.builtin.command: xdg-user-dirs-update
+    - name: Create development directory    
+      ansible.builtin.file:
+        path: '/home/cameron/Dev'
+        state: directory
+    - name: Clone dotfiles with Git bare repo
+      ansible.builtin.shell: git clone -b dev --separate-git-dir=$HOME/Dev/dotfiles https://github.com/ckstevenson/dotfiles.git dotfiles-tmp
+    - name: Copy the files to homedir
+      ansible.builtin.shell: rsync --recursive --verbose --exclude '.git' dotfiles-tmp/ $HOME/
+    - name: Remove temp directory
+      ansible.builtin.shell: rm -rf dotfiles-tmp
+	- name: Clone development repositories from GitHub
+  	  ansible.builtin.git:
+        repo: https://aur.archlinux.org/paru.git
+        dest: /home/cameron/Dev/
