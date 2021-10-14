@@ -59,4 +59,3 @@
         - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
         - { dest: '{{ home }}/Dev/paru', repo: 'https://github.com/Morganamilo/paru.git' }
         - { dest: '{{ home }}/Dev/st', repo: 'https://github.com/MentalOutlaw/st.git' }
-        - { dest: '{{ home }}/Dev/st', repo: 'https://github.com/MentalOutlaw/st.git' }

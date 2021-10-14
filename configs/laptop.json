@@ -2,7 +2,11 @@
     "audio": "pipewire",
     "bootloader": "grub-install",
     "custom-commands": [
-        "usermod -aG docker,libvirt cameron"
+        "usermod -aG docker,libvirt cameron",
+        "mv /home /home-old",
+        "btrfs subvolume create /home",
+        "mv /home-old/* /home/",
+        "rmdir /home-old"
     ],
     "filesystem": "btrfs",
     "gfx_driver": "All open-source",
