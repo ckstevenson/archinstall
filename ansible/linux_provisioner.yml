@@ -1,6 +1,8 @@
 # Provisions Linux instances during the Packer deployment
 ---
 - hosts: default
+  vars:
+    home: '/home/cameron'
   tasks:
     #    - name: Install
     #      community.general.pacman:
@@ -15,8 +17,8 @@
         key: "{{ lookup('file', lookup('env','HOME') + '/.ssh/id_rsa.pub') }}"
     - name: Copy private key
       ansible.builtin.copy:
-        src: '/home/cameron/.ssh/id_rsa'
-        dest: '/home/cameron/.ssh/id_rsa'
+        src: '{{ home }}/.ssh/id_rsa'
+        dest: '{{ home }}/.ssh/id_rsa'
         owner: cameron
         group: cameron
         mode: '0400'
@@ -24,15 +26,37 @@
       ansible.builtin.command: xdg-user-dirs-update
     - name: Create development directory    
       ansible.builtin.file:
-        path: '/home/cameron/Dev'
+        path: '{{ home }}/Dev'
         state: directory
-    - name: Clone dotfiles with Git bare repo
-      ansible.builtin.shell: git clone -b dev --separate-git-dir=$HOME/Dev/dotfiles https://github.com/ckstevenson/dotfiles.git dotfiles-tmp
-    - name: Copy the files to homedir
-      ansible.builtin.shell: rsync --recursive --verbose --exclude '.git' dotfiles-tmp/ $HOME/
-    - name: Remove temp directory
-      ansible.builtin.shell: rm -rf dotfiles-tmp
-	- name: Clone development repositories from GitHub
-  	  ansible.builtin.git:
-        repo: https://aur.archlinux.org/paru.git
-        dest: /home/cameron/Dev/
+    - name: Clone dotfiles with a separate Git dir
+      ansible.builtin.git:
+        repo: 'git@github.com:ckstevenson/dotfiles.git'
+        accept_hostkey: yes # security risk
+        separate_git_dir: '{{ home }}/Dev/dotfiles/'
+        dest: '{{ home }}/dotfiles-tmp'
+        version: 'dev'
+    - name: Synchronize passing in extra rsync options
+      ansible.posix.synchronize:
+        src: '{{ home }}/dotfiles-tmp/'
+        dest: '{{ home }}'
+        rsync_opts:
+          - "--exclude=.git"
+      delegate_to: "{{ inventory_hostname }}"
+    - name: Recursively remove directory
+      ansible.builtin.file:
+        path: '{{ home }}/dotfiles-tmp/'
+        state: absent
+    - name: Clone development repositories from GitHub
+      ansible.builtin.git:
+        repo: '{{ item.repo }}'
+        accept_hostkey: yes # security risk
+        dest: '{{ item.dest }}'
+      loop: 
+        - { dest: '{{ home }}/Dev/archinstall', repo: 'git@github.com:ckstevenson/archinstall.git' }
+        - { dest: '{{ home }}/Dev/packer-templates-qemu', repo: 'git@github.com:ckstevenson/packer-templates-qemu.git' }
+        - { dest: '{{ home }}/Dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
+        - { dest: '{{ home }}/Dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
+        - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
+        - { dest: '{{ home }}/Dev/paru', repo: 'https://github.com/Morganamilo/paru.git' }
+        - { dest: '{{ home }}/Dev/st', repo: 'https://github.com/MentalOutlaw/st.git' }
+        - { dest: '{{ home }}/Dev/st', repo: 'https://github.com/MentalOutlaw/st.git' }
