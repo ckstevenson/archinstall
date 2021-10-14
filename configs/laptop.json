@@ -2,8 +2,7 @@
     "audio": "pipewire",
     "bootloader": "grub-install",
     "custom-commands": [
-        "usermod -aG docker,libvirt cameron",
-        "systemctl enable sshd"
+        "usermod -aG docker,libvirt cameron"
     ],
     "filesystem": "btrfs",
     "gfx_driver": "All open-source",
@@ -13,37 +12,38 @@
     "hostname": "archinstall",
     "kernels": [
         "linux",
-		"linux-hardened"
+        "linux-hardened"
     ],
     "keyboard-language": "us",
     "mirror-region": "Germany",
     "nic": {
         "NetworkManager": false,
-		"nic": "enp1s0"
+        "nic": "enp1s0"
     },
     "ntp": true,
     "packages": [
-        "github-cli",
-		"docker", 
-		"git", 
-		"wget", 
-		"zsh", 
-		"bspwm",
-		"sxhkd",
-		"neovim",
-		"rsync",
-		"xorg",
         "alacritty",
         "bluez",
         "bluez-utils",
-        "xf86-video-vesa",
-        "libvirt",
-        "iptables-nft",
+        "bspwm",
+        "dmenu",
         "dnsmasq",
-        "openssh"
-	],
+        "docker",
+        "git", 
+        "github-cli",
+        "libvirt",
+        "neovim",
+        "openssh",
+        "rsync",
+        "sxhkd",
+        "wget", 
+        "xdg-user-dirs",
+        "xf86-video-vesa",
+        "xorg",
+        "zsh"
+    ],
     "profile": "xorg",
-    "services": ["docker"],
+    "services": ["docker","sshd"],
     "superusers": {
         "cameron": {
             "!password": "changeme"
