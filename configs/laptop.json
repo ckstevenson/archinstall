@@ -10,7 +10,7 @@
         "rm -rf /home-old"
     ],
     "filesystem": "btrfs",
-    "gfx_driver": "All open-source",
+    "gfx_driver": "Nvidia",
     "harddrive": {
         "path": "/dev/vda"
     },
@@ -34,6 +34,7 @@
         "dmenu",
         "dnsmasq",
         "docker",
+        "firefox",
         "git", 
         "github-cli",
         "libvirt",
@@ -42,6 +43,7 @@
         "rsync",
         "sxhkd",
         "sshpass",
+        "virt-viewer",
         "wget", 
         "xdg-user-dirs",
         "xf86-video-vesa",
