@@ -1,8 +1,8 @@
-#!/bin/env sh
+#!/usr/bin/env sh
 
 FILENAME="./aur.txt"
 
-for LINE in $(cat $HOME/aur.txt)
+while read -r LINE
 do
     paru -Qs "$LINE" > /dev/null || paru -S "$LINE" 
-done
+done < $FILENAME

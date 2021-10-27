@@ -4,12 +4,6 @@
   vars:
     home: '/home/cameron'
   tasks:
-    #    - name: Install
-    #      community.general.pacman:
-    #        name: "{{ item }}"
-    #        state: present
-    #      loop:
-    #        - xdg-user-dirs
     - name: Set authorized key for remote user copying it from current user
       ansible.posix.authorized_key:
         user: cameron
@@ -57,5 +51,9 @@
         - { dest: '{{ home }}/Dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
         - { dest: '{{ home }}/Dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
         - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
-        - { dest: '{{ home }}/Dev/paru', repo: 'https://github.com/Morganamilo/paru.git' }
+        - { dest: '{{ home }}/Dev/paru', repo: 'git clone https://aur.archlinux.org/paru.git' }
         - { dest: '{{ home }}/Dev/st', repo: 'https://github.com/MentalOutlaw/st.git' }
+    - name: Vim plug
+      ansible.bultin.shell: |
+        sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'

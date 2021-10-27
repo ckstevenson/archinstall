@@ -1,1 +1,20 @@
-betterlockscreen chromium-widevine diskonaut downgrade drawio-desktop egpu-switcher-git expressvpn ferdi glow hakuneko-desktop jmtpfs kind-bin lf nerd-fonts-complete numix-icon-theme-git nvidia-xrun-git polybar slack-desktop spotify
+betterlockscreen
+chromium-widevine
+diskonaut
+downgrade
+drawio-desktop
+egpu-switcher-git
+expressvpn
+ferdi
+glow
+hakuneko-desktop
+jmtpfs
+kind-bin
+lf
+nerd-fonts-complete
+numix-icon-theme-git
+nvidia-xrun-git
+polybar
+slack-desktop
+spotify
+ani-cli

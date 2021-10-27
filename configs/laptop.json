@@ -1,12 +1,13 @@
 {
     "audio": "pipewire",
-    "bootloader": "grub-install",
+    "bootloader": "systemd-bootctl",
     "custom-commands": [
         "usermod -aG docker,libvirt cameron",
         "mv /home /home-old",
         "btrfs subvolume create /home",
-        "mv /home-old/* /home/",
-        "rmdir /home-old"
+        "btrfs subvolume create /snapshots",
+        "cp --reflink -pr /home-old/* /home/",
+        "rm -rf /home-old"
     ],
     "filesystem": "btrfs",
     "gfx_driver": "All open-source",
@@ -40,11 +41,13 @@
         "openssh",
         "rsync",
         "sxhkd",
+        "sshpass",
         "wget", 
         "xdg-user-dirs",
         "xf86-video-vesa",
         "xorg",
-        "zsh"
+        "zsh",
+        "zsh-completions"
     ],
     "profile": "xorg",
     "services": ["docker","sshd"],
