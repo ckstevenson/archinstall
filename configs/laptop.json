@@ -12,7 +12,7 @@
     "filesystem": "btrfs",
     "gfx_driver": "Nvidia",
     "harddrive": {
-        "path": "/dev/vda"
+        "path": "/dev/sda"
     },
     "hostname": "archinstall",
     "kernels": [
