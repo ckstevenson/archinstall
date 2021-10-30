@@ -17,4 +17,5 @@ nvidia-xrun-git
 polybar
 slack-desktop
 spotify
-ani-cli
+terraform-ls
+ani-cli-git

@@ -10,7 +10,7 @@
         "rm -rf /home-old"
     ],
     "filesystem": "btrfs",
-    "gfx_driver": "Nvidia",
+    "gfx_driver": "All open-source (default)",
     "harddrive": {
         "path": "/dev/sda"
     },
@@ -23,7 +23,7 @@
     "mirror-region": "Germany",
     "nic": {
         "NetworkManager": false,
-        "nic": "enp1s0"
+        "nic": "enp0s31f6"
     },
     "ntp": true,
     "packages": [
@@ -32,11 +32,13 @@
         "bluez-utils",
         "bspwm",
         "dmenu",
+        "ttf-dejavu",
         "dnsmasq",
         "docker",
         "firefox",
         "git", 
         "github-cli",
+        "iwd",
         "libvirt",
         "neovim",
         "openssh",
@@ -52,7 +54,7 @@
         "zsh-completions"
     ],
     "profile": "xorg",
-    "services": ["docker","sshd"],
+    "services": ["docker","sshd","iwd"],
     "superusers": {
         "cameron": {
             "!password": "changeme"
