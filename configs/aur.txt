@@ -3,7 +3,6 @@ chromium-widevine
 diskonaut
 downgrade
 drawio-desktop
-egpu-switcher-git
 expressvpn
 ferdi
 glow
@@ -13,7 +12,7 @@ kind-bin
 lf
 nerd-fonts-complete
 numix-icon-theme-git
-nvidia-xrun-git
+arc-darker
 polybar
 slack-desktop
 spotify
