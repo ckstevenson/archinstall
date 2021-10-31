@@ -14,7 +14,7 @@
     "harddrive": {
         "path": "/dev/sda"
     },
-    "hostname": "archinstall",
+    "hostname": "p51",
     "kernels": [
         "linux",
         "linux-hardened"
