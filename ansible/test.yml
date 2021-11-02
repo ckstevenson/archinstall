@@ -1,0 +1,12 @@
+# Provisions Linux instances during the Packer deployment
+---
+- hosts: default
+  vars:
+    home: '/home/cameron'
+  tasks:
+    - name: Install some more packaged
+      community.general.pacman:
+        name: steam
+        state: present
+        update_cache: yes
+      become: true

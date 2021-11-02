@@ -28,6 +28,7 @@
     "ntp": true,
     "packages": [
         "alacritty",
+        "bash-language-server",
         "bluez",
         "bluez-utils",
         "bspwm",
@@ -43,6 +44,7 @@
         "neovim",
         "openssh",
         "pass",
+        "python-pip",
         "rsync",
         "shellcheck",
         "sxhkd",

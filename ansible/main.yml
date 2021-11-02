@@ -1,0 +1,95 @@
+# provisions linux instances during the packer deployment
+---
+- hosts: default
+  vars:
+    home: '/home/cameron'
+  tasks:
+    - name: create snapshots for testing
+        ansible.builtin.command: btrfs subvolume snapshot / /snapshots/root
+    - name: create snapshots for testing
+      ansible.builtin.command: btrfs subvolume snapshot /home /snapshots/
+      become: true
+          #- name: steam btrfs subvolme
+          #ansible.builtin.command: btrfs subvolume create '{{ home }}/.steam/steam/steamapps/common'
+
+    - name: set authorized key for remote user copying it from current user
+      ansible.posix.authorized_key:
+        user: cameron
+        state: present
+        key: "{{ lookup('file', '/home/cameron/.ssh/id_rsa.pub') }}"
+    - name: copy private key
+      ansible.builtin.copy:
+        src: '{{ home }}/.ssh/id_rsa'
+        dest: '{{ home }}/.ssh/id_rsa'
+        owner: cameron
+        group: cameron
+        mode: '0400'
+    - name: copy current pacman.conf
+      ansible.builtin.copy:
+        src: /etc/pacman.conf
+        dest: /etc/pacman.conf
+      become: yes
+    - name: copy current touchpad conf
+      ansible.builtin.copy:
+        src: /etc/X11/xorg.conf.d/30-touchpad.conf
+        dest: /etc/pacman.conf
+      become: yes
+    - name: create xdg default dirs
+      ansible.builtin.command: xdg-user-dirs-update
+    - name: create some directoried
+      ansible.builtin.file:
+        path: '{{ home }}/{{ item }}'
+        state: directory
+      loop: 
+        - 'dev'
+        - '.local/share/nvim/site/autoload/'
+        - '.mozilla/firefox'
+        - '.steam/steam/steamapps'
+    - name: clone dotfiles with a separate git dir
+      ansible.builtin.git:
+        repo: 'git@github.com:ckstevenson/dotfiles.git'
+        accept_hostkey: yes # security risk
+        separate_git_dir: '{{ home }}/dev/dotfiles/'
+        dest: '{{ home }}/dotfiles-tmp'
+        version: 'dev'
+    - name: synchronize passing in extra rsync options
+      ansible.posix.synchronize:
+        src: '{{ home }}/dotfiles-tmp/'
+        dest: '{{ home }}'
+        rsync_opts:
+          - "--exclude=.git"
+      delegate_to: "{{ inventory_hostname }}"
+    - name: recursively remove directory
+      ansible.builtin.file:
+        path: '{{ home }}/dotfiles-tmp/'
+        state: absent
+    - name: clone development repositories from github
+      ansible.builtin.git:
+        repo: '{{ item.repo }}'
+        accept_hostkey: yes # security risk
+        dest: '{{ item.dest }}'
+      loop: 
+        - { dest: '{{ home }}/dev/archinstall', repo: 'git@github.com:ckstevenson/archinstall.git' }
+        - { dest: '{{ home }}/dev/packer-templates-qemu', repo: 'git@github.com:ckstevenson/packer-templates-qemu.git' }
+        - { dest: '{{ home }}/dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
+        - { dest: '{{ home }}/dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
+        - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
+        - { dest: '{{ home }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
+        - { dest: '{{ home }}/dev/st', repo: 'https://github.com/mentaloutlaw/st.git' }
+        - { dest: '{{ home }}/dev/firefox-user.js', repo: 'https://github.com/pyllyukko/user.js/' }
+    - name: install vim plug
+      ansible.builtin.get_url:
+        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+        dest: '{{ home }}/.local/share/nvim/site/autoload/plug.vim'
+    - name: install some more packaged
+      community.general.pacman:
+        name: steam
+        state: present
+        update_cache: true
+      become: true
+    - name:
+      absible.builtin.pip:
+        name: pyright
+
+
+       #### DON'T FORGET TO LINK user.js! ####
