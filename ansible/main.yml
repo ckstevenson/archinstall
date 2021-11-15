@@ -75,7 +75,7 @@
         - { dest: '{{ home }}/dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
         - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
         - { dest: '{{ home }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
-        - { dest: '{{ home }}/dev/st', repo: 'https://github.com/mentaloutlaw/st.git' }
+        - { dest: '{{ home }}/dev/st', repo: 'https://github.com/MrFinchMkV/st.git' }
         - { dest: '{{ home }}/dev/firefox-user.js', repo: 'https://github.com/pyllyukko/user.js/' }
     - name: install vim plug
       ansible.builtin.get_url:
@@ -93,7 +93,6 @@
 
 
        #### DON'T FORGET TO LINK user.js! ####
-       # Need mousepad touch to click
-       # Need my dmenu
-       # Vincent's st
-       # Check duckduckgo homepage icons top right and browser default text
+       # Mirror dmenu and patch
+       # Yubikey dependency issue
+       # Copy gpg keys
