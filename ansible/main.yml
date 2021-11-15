@@ -74,6 +74,7 @@
         - { dest: '{{ home }}/dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
         - { dest: '{{ home }}/dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
         - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
+        - { dest: '{{ home }}/dev/dmenu', repo: 'git@github.com:ckstevenson/dmenu.git' }
         - { dest: '{{ home }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
         - { dest: '{{ home }}/dev/st', repo: 'https://github.com/MrFinchMkV/st.git' }
         - { dest: '{{ home }}/dev/firefox-user.js', repo: 'https://github.com/pyllyukko/user.js/' }
@@ -81,7 +82,7 @@
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         dest: '{{ home }}/.local/share/nvim/site/autoload/plug.vim'
-    - name: install some more packaged
+    - name: install some more packages
       community.general.pacman:
         name: steam
         state: present
@@ -93,6 +94,5 @@
 
 
        #### DON'T FORGET TO LINK user.js! ####
-       # Mirror dmenu and patch
        # Yubikey dependency issue
        # Copy gpg keys
