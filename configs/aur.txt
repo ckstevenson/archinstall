@@ -18,3 +18,5 @@ slack-desktop
 spotify
 terraform-ls
 ani-cli-git
+ark-gtk-theme
+arc-icon-theme-git ??? TEST
