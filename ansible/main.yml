@@ -88,9 +88,12 @@
         state: present
         update_cache: true
       become: true
-    - name:
-      absible.builtin.pip:
+    - name: pyright LSP
+      ansible.builtin.pip:
         name: pyright
+    - name: gpg magic
+      ansible.builtin.command: |
+        gpg --output key.gpg --passphrase '{{ gpg_pass }} --export cksteve@protonmail.com
 
 
        #### DON'T FORGET TO LINK user.js! ####
