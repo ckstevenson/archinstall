@@ -1,1 +1,6 @@
 packer_cache/**
+**vault**
+packer/vm
+configs/x1.json
+configs/p51.json
+configs/qemu.json

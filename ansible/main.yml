@@ -1,16 +1,14 @@
-# provisions linux instances during the packer deployment
 ---
 - hosts: default
   vars:
     home: '/home/cameron'
+  vars_files: './vault.yml'
   tasks:
-    - name: create snapshots for testing
-        ansible.builtin.command: btrfs subvolume snapshot / /snapshots/root
     - name: create snapshots for testing
       ansible.builtin.command: btrfs subvolume snapshot /home /snapshots/
       become: true
-          #- name: steam btrfs subvolme
-          #ansible.builtin.command: btrfs subvolume create '{{ home }}/.steam/steam/steamapps/common'
+    #- name: steam btrfs subvolme
+    #ansible.builtin.command: btrfs subvolume create '{{ home }}/.steam/steam/steamapps/common'
 
     - name: set authorized key for remote user copying it from current user
       ansible.posix.authorized_key:
@@ -29,10 +27,15 @@
         src: /etc/pacman.conf
         dest: /etc/pacman.conf
       become: yes
+    - name: copy current bluetooth main.conf
+      ansible.builtin.copy:
+        src: /etc/bluetooth/main.conf
+        dest: /etc/bluetooth/main.conf
+      become: yes
     - name: copy current touchpad conf
       ansible.builtin.copy:
         src: /etc/X11/xorg.conf.d/30-touchpad.conf
-        dest: /etc/pacman.conf
+        dest: /etc/X11/xorg.conf.d/30-touchpad.conf
       become: yes
     - name: create xdg default dirs
       ansible.builtin.command: xdg-user-dirs-update
@@ -51,7 +54,7 @@
         accept_hostkey: yes # security risk
         separate_git_dir: '{{ home }}/dev/dotfiles/'
         dest: '{{ home }}/dotfiles-tmp'
-        version: 'dev'
+          #version: 'dev'
     - name: synchronize passing in extra rsync options
       ansible.posix.synchronize:
         src: '{{ home }}/dotfiles-tmp/'
@@ -82,20 +85,37 @@
       ansible.builtin.get_url:
         url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
         dest: '{{ home }}/.local/share/nvim/site/autoload/plug.vim'
-    - name: install some more packages
-      community.general.pacman:
-        name: steam
-        state: present
-        update_cache: true
-      become: true
+      #- name: install some more packages
+      #  community.general.pacman:
+      #    name: steam
+      #    state: present
+      #    update_cache: true
+      #  become: true
     - name: pyright LSP
       ansible.builtin.pip:
         name: pyright
-    - name: gpg magic
+          ####    - name: make zsh default shell
+          ####      ansible.builtin.command: /usr/bin/chsh -s /usr/bin/zsh
+    - name: gpg export
       ansible.builtin.command: |
-        gpg --output key.gpg --passphrase '{{ gpg_pass }} --export cksteve@protonmail.com
-
+        gpg --output './key.gpg' --passphrase '{{ gpg_pass }}' --export cksteve@protonmail.com
+      delegate_to: localhost
+    - name: copy the key
+      ansible.builtin.copy:
+        src: 'key.gpg'
+        dest: '{{ home }}'
+    - name: remove the key
+      ansible.builtin.file:
+        path: 'key.gpg'
+        state: absent
+      delegate_to: localhost
+    - name: gpg import
+      ansible.builtin.command: |
+        gpg --allow-secret-key-import --import '{{ home }}/key.gpg'
 
        #### DON'T FORGET TO LINK user.js! ####
-       # Yubikey dependency issue
-       # Copy gpg keys
+       # bspwm programs install
+       # .config/systemd/user/ssh-agent.service && systemctl enable --user ssh-agent
+       # btrfs in archinstaller?
+       # sudo vagrant plugin install vagrant-libvirt
+       # provisions linux instances during the packer deployment

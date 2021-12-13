@@ -14,7 +14,7 @@
     "harddrive": {
         "path": "/dev/sda"
     },
-    "hostname": "p51",
+    "hostname": "core",
     "kernels": [
         "linux",
         "linux-hardened"
@@ -27,7 +27,8 @@
     },
     "ntp": true,
     "packages": [
-        "alacritty",
+        "aws-vault",
+        "bat",
         "bash-language-server",
         "bluez",
         "bluez-utils",
@@ -43,29 +44,44 @@
         "libvirt",
         "neovim",
         "openssh",
+        "packer",
         "pass",
         "python-pip",
+        "python-pipenv",
+        "pyenv",
+        "pulsemixer",
         "rsync",
         "shellcheck",
         "sxhkd",
         "sshpass",
         "ttf-dejavu",
         "ttf-liberation",
+        "vagrant",
         "virt-viewer",
+        "virtualbox",
+        "virtualbox-host-modules-arch",
         "wget", 
         "xdg-user-dirs",
         "xf86-video-vesa",
+        "xclip",
         "xorg",
+        "yubikey-manager",
+        "zathura",
         "zsh",
         "zsh-completions"
     ],
     "profile": "xorg",
-    "services": ["docker","sshd","iwd"],
     "superusers": {
         "cameron": {
             "!password": "changeme"
         }
     },
+    "services": [
+        "sshd",
+        "iwd",
+        "docker",
+        "bluetooth"
+    ],
     "sys-encoding": "utf-8",
     "sys-language": "en_US",
     "timezone": "Europe/Berlin",
