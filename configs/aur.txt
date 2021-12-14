@@ -9,7 +9,7 @@ diskonaut
 downgrade
 drawio-desktop
 expressvpn
-ferdi
+ferdi-bin
 glow
 hakuneko-desktop
 jmtpfs

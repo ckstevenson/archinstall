@@ -119,3 +119,5 @@
        # btrfs in archinstaller?
        # sudo vagrant plugin install vagrant-libvirt
        # provisions linux instances during the packer deployment
+       # amd/nvidia
+       # git config --global user.
