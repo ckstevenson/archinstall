@@ -1,0 +1,47 @@
+---
+- name: dev packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - ansible
+    - aws-vault
+    - docker
+    - docker-compose
+    - fprintd
+    - git 
+    - github-cli
+    - packer
+    - pacman-contrib
+    - pyenv
+    - python-pip
+    - python-pipenv
+    - qemu
+    - terraform
+    - terragrunt
+    - tmux
+    - vagrant
+    - virt-install
+    - virt-manager
+
+- name: programming tools
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    - bat
+    - bash-language-server
+    - shellcheck
+
+- name: virtualization tools
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: latest
+  loop:
+    #- iptables-nft 
+    - dnsmasq 
+    - virtualbox
+      #    - virtualbox-host-modules-arch
+    - libvirt
+      #- virt-viewer
+ 

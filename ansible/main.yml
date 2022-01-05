@@ -1,123 +1,44 @@
 ---
 - hosts: default
   vars:
-    home: '/home/cameron'
-  vars_files: './vault.yml'
-  tasks:
-    - name: create snapshots for testing
-      ansible.builtin.command: btrfs subvolume snapshot /home /snapshots/
-      become: true
-    #- name: steam btrfs subvolme
-    #ansible.builtin.command: btrfs subvolume create '{{ home }}/.steam/steam/steamapps/common'
-
-    - name: set authorized key for remote user copying it from current user
-      ansible.posix.authorized_key:
-        user: cameron
-        state: present
-        key: "{{ lookup('file', '/home/cameron/.ssh/id_rsa.pub') }}"
-    - name: copy private key
-      ansible.builtin.copy:
-        src: '{{ home }}/.ssh/id_rsa'
-        dest: '{{ home }}/.ssh/id_rsa'
-        owner: cameron
-        group: cameron
-        mode: '0400'
-    - name: copy current pacman.conf
-      ansible.builtin.copy:
-        src: /etc/pacman.conf
-        dest: /etc/pacman.conf
-      become: yes
-    - name: copy current bluetooth main.conf
-      ansible.builtin.copy:
-        src: /etc/bluetooth/main.conf
-        dest: /etc/bluetooth/main.conf
-      become: yes
-    - name: copy current touchpad conf
-      ansible.builtin.copy:
-        src: /etc/X11/xorg.conf.d/30-touchpad.conf
-        dest: /etc/X11/xorg.conf.d/30-touchpad.conf
-      become: yes
-    - name: create xdg default dirs
-      ansible.builtin.command: xdg-user-dirs-update
-    - name: create some directoried
-      ansible.builtin.file:
-        path: '{{ home }}/{{ item }}'
-        state: directory
-      loop: 
-        - 'dev'
-        - '.local/share/nvim/site/autoload/'
-        - '.mozilla/firefox'
-        - '.steam/steam/steamapps'
-    - name: clone dotfiles with a separate git dir
-      ansible.builtin.git:
-        repo: 'git@github.com:ckstevenson/dotfiles.git'
-        accept_hostkey: yes # security risk
-        separate_git_dir: '{{ home }}/dev/dotfiles/'
-        dest: '{{ home }}/dotfiles-tmp'
-          #version: 'dev'
-    - name: synchronize passing in extra rsync options
-      ansible.posix.synchronize:
-        src: '{{ home }}/dotfiles-tmp/'
-        dest: '{{ home }}'
-        rsync_opts:
-          - "--exclude=.git"
-      delegate_to: "{{ inventory_hostname }}"
-    - name: recursively remove directory
-      ansible.builtin.file:
-        path: '{{ home }}/dotfiles-tmp/'
-        state: absent
-    - name: clone development repositories from github
-      ansible.builtin.git:
-        repo: '{{ item.repo }}'
-        accept_hostkey: yes # security risk
-        dest: '{{ item.dest }}'
-      loop: 
-        - { dest: '{{ home }}/dev/archinstall', repo: 'git@github.com:ckstevenson/archinstall.git' }
-        - { dest: '{{ home }}/dev/packer-templates-qemu', repo: 'git@github.com:ckstevenson/packer-templates-qemu.git' }
-        - { dest: '{{ home }}/dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
-        - { dest: '{{ home }}/dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
-        - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
-        - { dest: '{{ home }}/dev/dmenu', repo: 'git@github.com:ckstevenson/dmenu.git' }
-        - { dest: '{{ home }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
-        - { dest: '{{ home }}/dev/st', repo: 'https://github.com/MrFinchMkV/st.git' }
-        - { dest: '{{ home }}/dev/firefox-user.js', repo: 'https://github.com/pyllyukko/user.js/' }
-    - name: install vim plug
-      ansible.builtin.get_url:
-        url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-        dest: '{{ home }}/.local/share/nvim/site/autoload/plug.vim'
-      #- name: install some more packages
-      #  community.general.pacman:
-      #    name: steam
-      #    state: present
-      #    update_cache: true
-      #  become: true
-    - name: pyright LSP
-      ansible.builtin.pip:
-        name: pyright
+    home: '/home/vagrant'
+    user: 'vagrant'
+      #  vars_files: './vault.yml'
+  roles:
+    - { role: base, become: yes }
+    - laptop
+    - dev
+    - gaming
           ####    - name: make zsh default shell
           ####      ansible.builtin.command: /usr/bin/chsh -s /usr/bin/zsh
-    - name: gpg export
-      ansible.builtin.command: |
-        gpg --output './key.gpg' --passphrase '{{ gpg_pass }}' --export cksteve@protonmail.com
-      delegate_to: localhost
-    - name: copy the key
-      ansible.builtin.copy:
-        src: 'key.gpg'
-        dest: '{{ home }}'
-    - name: remove the key
-      ansible.builtin.file:
-        path: 'key.gpg'
-        state: absent
-      delegate_to: localhost
-    - name: gpg import
-      ansible.builtin.command: |
-        gpg --allow-secret-key-import --import '{{ home }}/key.gpg'
+          
+          #    - name: gpg export
+          #      ansible.builtin.command: |
+          #        gpg --output './key.gpg' --passphrase '{{ gpg_pass }}' --export cksteve@protonmail.com
+          #      delegate_to: localhost
+          #
+          #    - name: copy the key
+          #      ansible.builtin.copy:
+          #        src: 'key.gpg'
+          #        dest: '{{ home }}'
+          #          
+          #    - name: remove the key
+          #      ansible.builtin.file:
+          #        path: 'key.gpg'
+          #        state: absent
+          #      delegate_to: localhost
+          #
+          #    - name: gpg import
+          #      ansible.builtin.command: |
+          #        gpg --allow-secret-key-import --import '{{ home }}/key.gpg'
 
        #### DON'T FORGET TO LINK user.js! ####
-       # bspwm programs install
-       # .config/systemd/user/ssh-agent.service && systemctl enable --user ssh-agent
        # btrfs in archinstaller?
-       # sudo vagrant plugin install vagrant-libvirt
        # provisions linux instances during the packer deployment
-       # amd/nvidia
-       # git config --global user.
+       # enable libvirtd, dnsmasq iptables-nft
+       # vagrant
+       # lutris
+       # wg config
+       # PV
+       # enable docker and bluetooth
+       # add disks_layout

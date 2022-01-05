@@ -1,0 +1,23 @@
+---
+- name: include packages
+  ansible.builtin.import_tasks: packages.yml
+  become: yes
+
+    #- name: set authorized key for remote user copying it from current user
+    #  ansible.posix.authorized_key:
+    #    user: "{{ user }}"
+    #    state: present
+    #    key: "{{ lookup('file', '/home/cameron/.ssh/id_rsa.pub') }}"
+
+- name: copy private key
+  ansible.builtin.copy:
+    #src: '{{ home }}/.ssh/id_rsa'
+    src: "/home/cameron/.ssh/id_rsa"
+    dest: '{{ home }}/.ssh/id_rsa'
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: '0400'
+
+- name: create xdg default dirs
+  ansible.builtin.command: xdg-user-dirs-update
+

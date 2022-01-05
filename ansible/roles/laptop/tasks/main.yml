@@ -1,0 +1,35 @@
+---
+- name: include packages
+  ansible.builtin.package:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - bluez
+    - bluez-utils
+    - fprintd
+  become: yes
+
+- name: auto enable all bluetooth controllers
+  ansible.builtin.lineinfile:
+    path: /etc/bluetooth/main.conf
+    line: 'AutoEnable=true'
+  become: yes
+
+- name: copy current touchpad conf
+  ansible.builtin.copy:
+    src: 30-touchpad.conf
+    dest: /etc/X11/xorg.conf.d/30-touchpad.conf
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
+- name: copy polkit rules for fprint
+  ansible.builtin.copy:
+    src: 50-net.reactivated.fprint.device.enroll.rules
+    dest: /etc/polkit-1/rules.d
+    owner: root
+    group: root
+    mode: '0644'
+  become: yes
+
