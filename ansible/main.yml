@@ -1,12 +1,14 @@
 ---
 - hosts: default
+  gather_facts: false
   vars:
-    home: '/home/vagrant'
-    user: 'vagrant'
+    ansible_ssh_host_key_checking: false
+    home: '/home/cameron/'
+    user: 'cameron'
       #  vars_files: './vault.yml'
   roles:
-    - { role: base, become: yes }
-    - laptop
+    #    - { role: base, become: yes }
+      #- laptop
     - dev
     - gaming
           ####    - name: make zsh default shell

@@ -3,11 +3,11 @@
   ansible.builtin.import_tasks: packages.yml
   become: yes
 
-    #- name: set authorized key for remote user copying it from current user
-    #  ansible.posix.authorized_key:
-    #    user: "{{ user }}"
-    #    state: present
-    #    key: "{{ lookup('file', '/home/cameron/.ssh/id_rsa.pub') }}"
+- name: set authorized key for remote user copying it from current user
+  ansible.posix.authorized_key:
+    user: "{{ user }}"
+    state: present
+    key: "{{ lookup('file', '/home/cameron/.ssh/id_rsa.pub') }}"
 
 - name: copy private key
   ansible.builtin.copy:
