@@ -38,10 +38,10 @@
     name: "{{ item }}"
     state: latest
   loop:
-    #- iptables-nft 
+    #- iptables-nft CONFLICT WITH IPTABLES
     - dnsmasq 
     - virtualbox
-      #    - virtualbox-host-modules-arch
-    - libvirt
-      #- virt-viewer
+      #- virtualbox-host-modules-arch needed?
+      #    - libvirt WAS ALREADY INSTALLED
+    - virt-viewer
  

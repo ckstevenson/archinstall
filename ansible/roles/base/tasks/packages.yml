@@ -63,33 +63,33 @@
   tags:
     - amd
 
-- name: Intel graphics
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - xf86-video-intel
-    - intel-gpu-tools
-  tags:
-    - intel
-
-- name: Nvidia graphics
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - xf86-video-nouveau
-  tags:
-    - nvidia
-
-- name: VM graphics
-  ansible.builtin.package:
-    name: "{{ item }}"
-    state: present
-  loop:
-    - xf86-video-vesa
-  tags:
-    - vm
+      #- name: Intel graphics
+      #  ansible.builtin.package:
+      #    name: "{{ item }}"
+      #    state: present
+      #  loop:
+      #    - xf86-video-intel
+      #    - intel-gpu-tools
+      #  tags:
+      #    - intel
+      #
+      #- name: Nvidia graphics
+      #  ansible.builtin.package:
+      #    name: "{{ item }}"
+      #    state: present
+      #  loop:
+      #    - xf86-video-nouveau
+      #  tags:
+      #    - nvidia
+      #
+      #- name: VM graphics
+      #  ansible.builtin.package:
+      #    name: "{{ item }}"
+      #    state: present
+      #  loop:
+      #    - xf86-video-vesa
+      #  tags:
+      #    - vm
 
 - name: mesa
   ansible.builtin.package:
