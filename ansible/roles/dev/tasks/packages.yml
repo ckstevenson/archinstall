@@ -41,7 +41,7 @@
     #- iptables-nft CONFLICT WITH IPTABLES
     - dnsmasq 
     - virtualbox
-      #- virtualbox-host-modules-arch needed?
+      #- virtualbox-host-modules-arch ##TRY WITH VIRTUALBOX DISABLED
       #    - libvirt WAS ALREADY INSTALLED
     - virt-viewer
  
