@@ -44,3 +44,8 @@
        # PV
        # enable docker and bluetooth
        # add disks_layout
+       # link xorg.conf for desktop
+       # mkdir ~/.cache/zsh/
+       # touch ~/.cache/zsh/history
+       # ssh keys from work
+       # -a -G docker cameron
