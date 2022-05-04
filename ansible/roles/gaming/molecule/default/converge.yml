@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  become: true
+  vars:
+    gpu: 'vm'
+    user: 'vagrant'
+    pkey: '/home/cameron/.ssh/id_rsa'
+  tasks:
+    - name: "Include ckstevenson.archbox"
+      include_role:
+        name: "ckstevenson.archbox"

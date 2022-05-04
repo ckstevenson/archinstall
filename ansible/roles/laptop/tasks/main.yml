@@ -1,21 +1,27 @@
 ---
 - name: include packages
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      - bluez
+      - bluez-utils
+      - fprintd
     state: present
-  loop:
-    - bluez
-    - bluez-utils
-    - fprintd
   become: yes
+
+- name: Enable bluetoothd
+  ansible.builtin.systemd:
+    name: bluetoothd
+    enabled: yes
 
 - name: auto enable all bluetooth controllers
   ansible.builtin.lineinfile:
     path: /etc/bluetooth/main.conf
     line: 'AutoEnable=true'
   become: yes
+  notify:
+    - Restart bluetoothd
 
-- name: copy current touchpad conf
+- name: copy touchpad conf
   ansible.builtin.copy:
     src: 30-touchpad.conf
     dest: /etc/X11/xorg.conf.d/30-touchpad.conf

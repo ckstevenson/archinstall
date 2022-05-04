@@ -2,45 +2,19 @@
 - hosts: default
   gather_facts: false
   vars:
-    ansible_ssh_host_key_checking: false
-    home: '/home/cameron/'
-    user: 'cameron'
-      #  vars_files: './vault.yml'
   roles:
-    #    - { role: base, become: yes }
-      #- laptop
+    - base
     - dev
-    - gaming
+    - laptop
+      #- gaming
           ####    - name: make zsh default shell
           ####      ansible.builtin.command: /usr/bin/chsh -s /usr/bin/zsh
-          
-          #    - name: gpg export
-          #      ansible.builtin.command: |
-          #        gpg --output './key.gpg' --passphrase '{{ gpg_pass }}' --export cksteve@protonmail.com
-          #      delegate_to: localhost
-          #
-          #    - name: copy the key
-          #      ansible.builtin.copy:
-          #        src: 'key.gpg'
-          #        dest: '{{ home }}'
-          #          
-          #    - name: remove the key
-          #      ansible.builtin.file:
-          #        path: 'key.gpg'
-          #        state: absent
-          #      delegate_to: localhost
-          #
-          #    - name: gpg import
-          #      ansible.builtin.command: |
-          #        gpg --allow-secret-key-import --import '{{ home }}/key.gpg'
 
        #### DON'T FORGET TO LINK user.js! ####
        # btrfs in archinstaller?
        # provisions linux instances during the packer deployment
        # enable libvirtd, dnsmasq iptables-nft
-       # vagrant
        # lutris
-       # wg config
        # PV
        # enable docker and bluetooth
        # add disks_layout

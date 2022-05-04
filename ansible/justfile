@@ -1,0 +1,25 @@
+# cd ./roles/{dev,base,laptop}/ && just
+
+export VAGRANT_DEFAULT_PROVIDER := "libvirt"
+
+test: init galaxy
+  cd {{invocation_directory()}} && \
+  poetry run molecule test
+
+converge: init galaxy
+  cd {{invocation_directory()}} && \
+  poetry run molecule converge
+
+destroy: init
+  cd {{invocation_directory()}} && \
+  poetry run molecule destroy
+
+verify: init
+  cd {{invocation_directory()}} &&  \
+  poetry run molecule verify
+
+init:
+  poetry install
+
+galaxy:
+  poetry run ansible-galaxy collection install -r ./requirements.yml

@@ -1,0 +1,36 @@
+---
+- name: base packages
+  ansible.builtin.package:
+    name: fakeroot
+    state: present
+  become: true
+
+- name: AUR packages
+  kewlfft.aur.aur:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - paru
+    #    - ani-cli-git
+    #    - arc-gtk-theme
+    #    - arc-icon-theme-git
+    #    - awless
+    #    - aws-cli-v2-bin
+    #    - betterlockscreen
+    #    - chromium-widevine
+    #    - diskonaut
+    #    - dockerfile-language-server
+    #    - downgrade
+    #    - drawio-desktop
+    #    - expressvpn
+    #    - ferdi-bin
+    #    - glow
+    #    - hakuneko-desktop
+    #    - jmtpfs
+    #    - kind-bin
+    #    - lf
+    #    - nerd-fonts-complete
+    #    - polybar
+    #    - slack-desktop
+    #    - terraform-ls
+    #    - zoom

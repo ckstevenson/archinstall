@@ -1,0 +1,12 @@
+---
+- name: Converge
+  hosts: all
+  vars:
+    gpu: 'vm'
+    user: 'vagrant'
+  roles:
+    - role: base
+      #tasks:
+      #  - include_role:
+      #      name: base
+      #      tasks_from: aur

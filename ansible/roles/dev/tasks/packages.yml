@@ -1,47 +1,46 @@
 ---
 - name: dev packages
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      - ansible
+      - aws-vault
+      - docker
+      - docker-compose
+      - fprintd
+      - git 
+      - github-cli
+      - gopls
+      - packer
+      - pacman-contrib
+      - pyenv
+      - python-pip
+      - python-pipenv
+      - pyright
+      - qemu
+      - terraform
+      - terragrunt
+      - tmux
+      - vagrant
+      - virt-install
+      - virt-manager
     state: latest
-  loop:
-    - ansible
-    - aws-vault
-    - docker
-    - docker-compose
-    - fprintd
-    - git 
-    - github-cli
-    - packer
-    - pacman-contrib
-    - pyenv
-    - python-pip
-    - python-pipenv
-    - qemu
-    - terraform
-    - terragrunt
-    - tmux
-    - vagrant
-    - virt-install
-    - virt-manager
 
 - name: programming tools
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      - bat
+      - bash-language-server
+      - shellcheck
     state: latest
-  loop:
-    - bat
-    - bash-language-server
-    - shellcheck
 
 - name: virtualization tools
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      #- iptables-nft CONFLICT WITH IPTABLES
+      - dnsmasq 
+      - virtualbox
+        #- virtualbox-host-modules-arch ##TRY WITH VIRTUALBOX DISABLED
+        #    - libvirt WAS ALREADY INSTALLED
+      - virt-viewer
+      - dmidecode
     state: latest
-  loop:
-    #- iptables-nft CONFLICT WITH IPTABLES
-    - dnsmasq 
-    - virtualbox
-      #- virtualbox-host-modules-arch ##TRY WITH VIRTUALBOX DISABLED
-      #    - libvirt WAS ALREADY INSTALLED
-    - virt-viewer
- 

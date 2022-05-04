@@ -1,12 +1,13 @@
+---
 - name: include packages
   ansible.builtin.import_tasks: packages.yml
   become: yes
 
 - name: create some directories for later use
   ansible.builtin.file:
-    path: '{{ home }}/{{ item }}'
+    path: '/home/{{ user }}/{{ item }}'
     state: directory
-  loop: 
+  loop:
     - 'dev'
     - '.local/share/nvim/site/autoload/'
     - '.mozilla/firefox'
@@ -17,21 +18,21 @@
   ansible.builtin.git:
     repo: 'git@github.com:ckstevenson/dotfiles.git'
     accept_hostkey: yes # security risk
-    separate_git_dir: '{{ home }}/dev/dotfiles/'
-    dest: '{{ home }}/dotfiles-tmp'
+    separate_git_dir: '/home/{{ user }}/dev/dotfiles/'
+    dest: '/home/{{ user }}/dotfiles-tmp'
       #version: 'dev'
       
 - name: synchronize passing in extra rsync options
   ansible.posix.synchronize:
-    src: '{{ home }}/dotfiles-tmp/'
-    dest: '{{ home }}'
+    src: '/home/{{ user }}/dotfiles-tmp/'
+    dest: '/home/{{ user }}'
     rsync_opts:
       - "--exclude=.git"
   delegate_to: "{{ inventory_hostname }}"
 
 - name: recursively remove directory
   ansible.builtin.file:
-    path: '{{ home }}/dotfiles-tmp/'
+    path: '/home/{{ user }}/dotfiles-tmp/'
     state: absent
 
 - name: clone development repositories from github
@@ -40,30 +41,26 @@
     accept_hostkey: yes # security risk
     dest: '{{ item.dest }}'
   loop: 
-    - { dest: '{{ home }}/dev/archinstall', repo: 'git@github.com:ckstevenson/archinstall.git' }
-    - { dest: '{{ home }}/dev/packer-templates-qemu', repo: 'git@github.com:ckstevenson/packer-templates-qemu.git' }
-    - { dest: '{{ home }}/dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
-    - { dest: '{{ home }}/dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
-    - { dest: '{{ home }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
-    - { dest: '{{ home }}/dev/dmenu', repo: 'git@github.com:ckstevenson/dmenu.git' }
-    - { dest: '{{ home }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
-    - { dest: '{{ home }}/dev/st', repo: 'https://github.com/MrFinchMkV/st.git' }
+    - { dest: '/home/{{ user }}/dev/archinstall', repo: 'git@github.com:ckstevenson/archinstall.git' }
+    - { dest: '/home/{{ user }}/dev/packer-templates-qemu', repo: 'git@github.com:ckstevenson/packer-templates-qemu.git' }
+    - { dest: '/home/{{ user }}/dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
+    - { dest: '/home/{{ user }}/dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
+    - { dest: '/home/{{ user }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
+    - { dest: '/home/{{ user }}/dev/dmenu', repo: 'git@github.com:ckstevenson/dmenu.git' }
+    - { dest: '/home/{{ user }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
+    - { dest: '/home/{{ user }}/dev/st', repo: 'https://github.com/MrFinchMkV/st.git' }
 
 - name: install vim plug
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-    dest: '{{ home }}/.local/share/nvim/site/autoload/plug.vim'
-
-- name: pyright LSP
-  ansible.builtin.pip:
-    name: pyright
+    dest: '/home/{{ user }}/.local/share/nvim/site/autoload/plug.vim'
 
 - name: create ssh-agent service
   ansible.builtin.copy:
     src: ssh-agent.service
-    dest: '{{ home }}/.config/systemd/user/ssh-agent.service'
+    dest: '/home/{{ user }}/.config/systemd/user/ssh-agent.service'
 
-- name: enable ssh-agent service
+- name: enable services service
   ansible.builtin.systemd:
     name: ssh-agent
     scope: user
@@ -77,3 +74,8 @@
     git config --global user.name 'Cameron Stevenson'
     git config --global user.email 'cksteve@protonmail.com'
 
+- name: Add user to the appropriate groups
+  ansible.builtin.user:
+    name: '{{ user }}'
+    groups: libvirt,docker
+  become: true

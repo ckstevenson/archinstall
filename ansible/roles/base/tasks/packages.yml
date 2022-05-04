@@ -7,95 +7,86 @@
 - name: Run the equivalent of "pacman -Sy" as a separate step
   community.general.pacman:
     update_cache: yes
-    
+
 - name: base packages
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      - bolt
+      - scrot
+      - chromium
+      - discord
+      - xorg
+      - libreoffice-still
+      - hunspell
+      - hunspell-en_us
+      - hunspell-de
+      - firefox
+      - fwupd
+      - glances
+      - git
+      - gtk2
+      - lxappearance
+      - neovim
+      - numlockx
+      - pass
+      - pulsemixer
+      - rsync
+      - sshpass
+      - sxhkd
+      - sxiv
+      - ttf-dejavu
+      - ttf-liberation
+      - udisks2
+      - unclutter
+      - wget
+      - xclip
+      - xdg-user-dirs
+      - yubikey-manager
+      - zathura
+      - zsh
+      - zsh-completions
     state: present
-  loop:
-    - bolt
-    - chromium
-    - discord
-    - xorg
-    - libreoffice-still 
-    - hunspell 
-    - hunspell-en_us 
-    - hunspell-de
-    - firefox
-    - fwupd
-    - glances
-    - gtk2
-    - lxappearance
-    - neovim
-    - numlockx
-    - pass
-    - pulsemixer
-    - rsync
-    - sshpass
-    - sxhkd
-    - sxiv
-    - ttf-dejavu
-    - ttf-liberation
-    - udisks2
-    - unclutter
-    - wget 
-    - xclip
-    - xdg-user-dirs
-    - yubikey-manager
-    - zathura
-    - zsh
-    - zsh-completions
- 
+
 - name: WM tools
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      - bspwm
+      - dmenu
     state: present
-  loop:
-    - bspwm
-    - dmenu
 
 - name: AMD graphics
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      - xf86-video-amdgpu
+      - radeontop
     state: present
-  loop:
-    - xf86-video-amdgpu
-    - radeontop
-  tags:
-    - amd
+  when: gpu == 'amd' or gpu == 'all'
 
-      #- name: Intel graphics
-      #  ansible.builtin.package:
-      #    name: "{{ item }}"
-      #    state: present
-      #  loop:
-      #    - xf86-video-intel
-      #    - intel-gpu-tools
-      #  tags:
-      #    - intel
-      #
-      #- name: Nvidia graphics
-      #  ansible.builtin.package:
-      #    name: "{{ item }}"
-      #    state: present
-      #  loop:
-      #    - xf86-video-nouveau
-      #  tags:
-      #    - nvidia
-      #
-      #- name: VM graphics
-      #  ansible.builtin.package:
-      #    name: "{{ item }}"
-      #    state: present
-      #  loop:
-      #    - xf86-video-vesa
-      #  tags:
-      #    - vm
+- name: Intel graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-intel
+      - intel-gpu-tools
+    state: present
+  when: gpu == 'intel' or gpu == 'all'
+
+- name: Nvidia graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-nouveau
+    state: present
+  when: gpu == 'nvidia' or gpu == 'all'
+
+- name: VM graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-vesa
+    state: present
+  when: gpu == 'vm' or gpu == 'all'
 
 - name: mesa
   ansible.builtin.package:
-    name: "{{ item }}"
+    name:
+      - mesa
+      - lib32-mesa
     state: present
-  loop:
-    - mesa
-    - lib32-mesa
