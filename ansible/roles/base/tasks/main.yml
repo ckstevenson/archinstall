@@ -43,4 +43,4 @@
     accept_hostkey: yes # security risk
     dest: '{{ item.dest }}'
   loop:
-    - { dest: '/home/{{ user }}/.password_store', repo: 'git@10.10.10.221:/srv/git/pass.git' }
+    - { dest: '/home/{{ user }}/.password-store', repo: 'git@10.10.10.221:/srv/git/pass.git' }
