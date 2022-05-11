@@ -2,15 +2,19 @@
 - name: include packages
   ansible.builtin.package:
     name:
+      - acpid
       - bluez
       - bluez-utils
       - fprintd
     state: present
   become: yes
 
-- name: Enable bluetoothd
+- name: Enable services
   ansible.builtin.systemd:
-    name: bluetoothd
+    name:
+      - bluetoothd
+      - acpid
+      - laptop-mode
     enabled: yes
 
 - name: auto enable all bluetooth controllers
