@@ -13,10 +13,17 @@
     name:
       - acpi
       - tailscale
+      - python-pdftotext
+      - mediainfo
+      - transmission-cli
+      - dnsutils
       - bolt
+      - noto-fonts-cjk
       - scrot
       - chromium
       - discord
+      - dunst
+      - signal-desktop
       - xorg
       - libreoffice-still
       - hunspell
@@ -45,6 +52,7 @@
       - xdg-user-dirs
       - yubikey-manager
       - zathura
+      - zathura-pdf-mupdf
       - zsh
       - zsh-completions
     state: present
@@ -69,6 +77,8 @@
     name:
       - xf86-video-intel
       - intel-gpu-tools
+      - libva-utils
+      - libva-intel-driver
     state: present
   when: gpu == 'intel' or gpu == 'all'
 
@@ -91,9 +101,10 @@
     name:
       - mesa
       - lib32-mesa
+      - mesa-utils
     state: present
 
-- name: Enable bluetooth
+- name: Enable services
   ansible.builtin.systemd:
     name: '{{ item }}'
     enabled: yes

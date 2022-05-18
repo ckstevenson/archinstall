@@ -10,16 +10,29 @@
           ####    - name: make zsh default shell
           ####      ansible.builtin.command: /usr/bin/chsh -s /usr/bin/zsh
 
-       #### DON'T FORGET TO LINK user.js! ####
-       # btrfs in archinstaller?
-       # provisions linux instances during the packer deployment
+# todo:
+# * ssh keys
+# * gpg keys
+# * paru and aur packages install
+# * st and dmenu install
+# * vim plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && :PlugInstall
+# * remove graphics install since installer has it
+# * verify installer configs
+# * configure laptop-mode-tools
+#
+# */etc/X11/xorg.conf.d/20-intel.conf
+# ```Section "Device"
+#   Identifier "Intel Graphics"
+#   Driver "intel"
+#   Option "TearFree" "true"
+# EndSection```
+#
+# * mkdir dev/work && alias gtwork
+# * bluetooth: blacklist hci_uart to /etc/modprobe.d/blacklist.conf, then modprobe hci_uart after boot and start the bluetooth service with systemd
+# * fingprint sensor
+# * /etc/systemd/logind.conf has HandleLidSwitch=ignore
+# add aws profiles
+
        # enable libvirtd, dnsmasq iptables-nft
-       # lutris
        # PV
-       # enable docker and bluetooth
-       # add disks_layout
-       # link xorg.conf for desktop
-       # mkdir ~/.cache/zsh/
-       # touch ~/.cache/zsh/history
        # ssh keys from work
-       # -a -G docker cameron

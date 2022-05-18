@@ -4,12 +4,15 @@
     name:
       - ansible
       - aws-vault
+      - podman
+      - podman-compose
       - docker
       - docker-compose
       - fprintd
       - git 
       - github-cli
       - gopls
+      - jq
       - packer
       - pacman-contrib
       - pyenv
