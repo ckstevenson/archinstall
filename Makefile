@@ -47,10 +47,10 @@ p51: profile=p51
 .PHONY: p51
 p51: compose
 
-.PHONY: x1
-x1: profile=x1
-.PHONY: x1
-x1: 
+.PHONY: xps
+xps: profile=xps
+.PHONY: xps
+xps: 
 	cat ./configs/core.json > ./configs/${profile}.json
 	sed -e 's/sda/nvme0n1/g' \
 		-e 's/core/${profile}/g' \

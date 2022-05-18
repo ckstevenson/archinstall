@@ -12,9 +12,9 @@
     "filesystem": "btrfs",
     "gfx_driver": "Intel (open-source)",
     "harddrive": {
-        "path": "/dev/sda"
+        "path": "/dev/nvme0n1"
     },
-    "hostname": "core",
+    "hostname": "xps",
     "kernels": [
         "linux",
         "linux-hardened"
@@ -23,7 +23,7 @@
     "mirror-region": "Germany",
     "nic": {
         "NetworkManager": false,
-        "nic": "enp0s31f6"
+        "nic": "wlan0"
     },
     "ntp": true,
     "packages": [
