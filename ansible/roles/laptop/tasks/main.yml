@@ -5,13 +5,15 @@
       - bluez
       - bluez-utils
       - fprintd
+      - sof-firmware
     state: present
   become: yes
 
-- name: Enable bluetoothd
+- name: Enable bluetooth
   ansible.builtin.systemd:
-    name: bluetoothd
+    name: bluetooth
     enabled: yes
+  become: yes
 
 - name: auto enable all bluetooth controllers
   ansible.builtin.lineinfile:
@@ -19,7 +21,7 @@
     line: 'AutoEnable=true'
   become: yes
   notify:
-    - Restart bluetoothd
+    - Restart bluetooth
 
 - name: copy touchpad conf
   ansible.builtin.copy:

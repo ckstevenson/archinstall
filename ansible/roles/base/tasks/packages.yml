@@ -11,6 +11,8 @@
 - name: base packages
   ansible.builtin.package:
     name:
+      - acpi
+      - tailscale
       - bolt
       - scrot
       - chromium
@@ -90,3 +92,13 @@
       - mesa
       - lib32-mesa
     state: present
+
+- name: Enable bluetooth
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    enabled: yes
+  become: yes
+  loop:
+    - libvirtd
+    - tailscaled
+
