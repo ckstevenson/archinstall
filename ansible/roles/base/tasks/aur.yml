@@ -11,6 +11,8 @@
     state: present
   loop:
     - paru
+    - pacdep
+    - expressvpn
     #    - ani-cli-git
     #    - arc-gtk-theme
     #    - arc-icon-theme-git
@@ -24,7 +26,7 @@
     #    - drawio-desktop
     #    - expressvpn
     #    - ferdi-bin
-    #    - glow
+    #######    - glow
     #    - hakuneko-desktop
     #    - jmtpfs
     #    - kind-bin

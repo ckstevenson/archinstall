@@ -2,7 +2,9 @@
 - name: include packages
   ansible.builtin.package:
     name:
-      - acpid
+      #- acpid
+      - powertop
+      - tlp
       - bluez
       - bluez-utils
       - fprintd
@@ -13,8 +15,10 @@
   ansible.builtin.systemd:
     name:
       - bluetoothd
-      - acpid
-      - laptop-mode
+        #      - acpid
+        #- laptop-mode
+      - powertop
+      - tlp
     enabled: yes
 
 - name: auto enable all bluetooth controllers

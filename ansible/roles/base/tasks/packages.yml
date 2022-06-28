@@ -11,7 +11,28 @@
 - name: base packages
   ansible.builtin.package:
     name:
-      - python-pdftotext
+        #- python-pdftotext
+        #- unrar
+        #- p7zip
+        #- catdoc
+        #- odt2txt
+        #- docx2txt
+      - telegram-desktop
+      - w3m
+      - aerc
+      - ntfs-3g
+      - cifs-utils
+      - strace
+      - element-desktop
+      - nextcloud-client
+      - ffmpegthumbnailer
+      - rclone
+      - nmap
+      - restic
+      - ueberzug
+      - gimp
+      - atool
+      - lynx
       - mediainfo
       - transmission-cli
       - dnsutils

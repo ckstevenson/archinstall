@@ -16,6 +16,7 @@
 # * paru and aur packages install
 # * st and dmenu install
 # * vim plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && :PlugInstall
+# enable docker
 # * remove graphics install since installer has it
 # * verify installer configs
 # * configure laptop-mode-tools
@@ -32,7 +33,22 @@
 # * fingprint sensor
 # * /etc/systemd/logind.conf has HandleLidSwitch=ignore
 # add aws profiles
+# add .local/share/applications
+# [Desktop Entry]
+# Type=Application
+# Name=File Manager
+# Exec=/usr/local/bin/st -e lfub %u
+# restic excludes file
+# mkdir Backups,Books
+# /etc/fstab
+# .config/smb
 
        # enable libvirtd, dnsmasq iptables-nft
        # PV
        # ssh keys from work
+       #
+       #
+# tfenv
+# tgenv sudo usermod -aG tgenv ${USER}
+# sudo usermod -aG tfenv ${USER}
+# don't install terraform or terragrunt
