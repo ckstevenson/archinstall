@@ -33,6 +33,9 @@
       - gimp
       - atool
       - lynx
+      - acpi
+      - tailscale
+      - python-pdftotext
       - mediainfo
       - transmission-cli
       - dnsutils
@@ -122,3 +125,13 @@
       - lib32-mesa
       - mesa-utils
     state: present
+
+- name: Enable services
+  ansible.builtin.systemd:
+    name: '{{ item }}'
+    enabled: yes
+  become: yes
+  loop:
+    - libvirtd
+    - tailscaled
+
