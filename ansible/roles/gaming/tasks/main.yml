@@ -11,3 +11,44 @@
 
     #- name: steam btrfs subvolme
     #ansible.builtin.command: btrfs subvolume create '{{ home }}/.steam/steam/steamapps/common'
+
+- name: AMD graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-amdgpu
+      - radeontop
+    state: present
+  when: dgpu == 'amd' or dgpu == 'all'
+
+- name: Intel graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-intel
+      - intel-gpu-tools
+      - libva-utils
+      - libva-intel-driver
+    state: present
+  when: dgpu == 'intel' or dgpu == 'all'
+
+- name: Nvidia graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-nouveau
+    state: present
+  when: dgpu == 'nvidia' or dgpu == 'all'
+
+- name: VM graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-vesa
+    state: present
+  when: dgpu == 'vm' or dgpu == 'all'
+
+- name: mesa
+  ansible.builtin.package:
+    name:
+      - mesa
+      - lib32-mesa
+      - mesa-utils
+    state: present
+

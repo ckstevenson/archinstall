@@ -1,8 +1,6 @@
 Vagrant.configure("2") do |config|
   config.vm.box = "archlinux/archlinux"
-
-  config.vm.provider "virtualbox" do |vb|
-    vb.customize ["modifyvm", :id, "--nictype1", "virtio"]
+  config.disksize.size = '20GB'
   end
 
   ENV['ANSIBLE_CONFIG'] = "./ansible/ansible.cfg"

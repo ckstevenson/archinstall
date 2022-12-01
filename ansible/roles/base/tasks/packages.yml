@@ -4,9 +4,19 @@
     src: /etc/pacman.conf
     dest: /etc/pacman.conf
 
-- name: Run the equivalent of "pacman -Sy" as a separate step
+- name: Run the equivalent of "pacman -Syu" as a separate step
+  # Since community.general 5.0.0 the 'changed' state of this call
+  # will be 'true' in case the cache was updated, or when a package
+  # was updated.
+  #
+  # The previous behavior was to only indicate whether something was
+  # upgraded. To keep the old behavior, add the following to the task:
+  #
+  #   register: result
+  #   changed_when: result.packages | length > 0
   community.general.pacman:
-    update_cache: yes
+    update_cache: true
+    upgrade: true
 
 - name: base packages
   ansible.builtin.package:
@@ -18,10 +28,15 @@
         #- odt2txt
         #- docx2txt
       - telegram-desktop
+      - aws-cli-v2
+      - pv
+      - diskonaut
       - w3m
       - aerc
       - ntfs-3g
       - cifs-utils
+      - lf
+      - nfs-utils
       - strace
       - element-desktop
       - nextcloud-client
@@ -31,9 +46,11 @@
       - restic
       - ueberzug
       - gimp
+      - helm
       - atool
       - lynx
       - acpi
+      - smartmontools
       - tailscale
       - python-pdftotext
       - mediainfo
@@ -60,6 +77,7 @@
       - neovim
       - numlockx
       - pass
+      - pcmanfm
       - pulsemixer
       - rsync
       - sshpass
@@ -71,12 +89,43 @@
       - unclutter
       - wget
       - xclip
+      - polybar
       - xdg-user-dirs
       - yubikey-manager
       - zathura
       - zathura-pdf-mupdf
       - zsh
       - zsh-completions
+      - ansible
+      - mariadb
+      - go-tools
+      - aws-vault
+      - podman
+      - podman-compose
+      - docker
+      - docker-compose
+      - fprintd
+      - git
+      - github-cli
+      - gopls
+      - jq
+      - just
+      - kubectl
+      - packer
+      - pacman-contrib
+      - pyenv
+      - python-pip
+      - ansible-core
+      - python-pipenv
+      - pyright
+      - qemu
+      #- terraform
+      #- terragrunt
+      - tmux
+      - vagrant
+      - virt-install
+      - virt-manager
+      - wol
     state: present
 
 - name: WM tools
@@ -86,52 +135,30 @@
       - dmenu
     state: present
 
-- name: AMD graphics
-  ansible.builtin.package:
-    name:
-      - xf86-video-amdgpu
-      - radeontop
-    state: present
-  when: gpu == 'amd' or gpu == 'all'
-
-- name: Intel graphics
-  ansible.builtin.package:
-    name:
-      - xf86-video-intel
-      - intel-gpu-tools
-      - libva-utils
-      - libva-intel-driver
-    state: present
-  when: gpu == 'intel' or gpu == 'all'
-
-- name: Nvidia graphics
-  ansible.builtin.package:
-    name:
-      - xf86-video-nouveau
-    state: present
-  when: gpu == 'nvidia' or gpu == 'all'
-
-- name: VM graphics
-  ansible.builtin.package:
-    name:
-      - xf86-video-vesa
-    state: present
-  when: gpu == 'vm' or gpu == 'all'
-
-- name: mesa
-  ansible.builtin.package:
-    name:
-      - mesa
-      - lib32-mesa
-      - mesa-utils
-    state: present
-
 - name: Enable services
   ansible.builtin.systemd:
     name: '{{ item }}'
     enabled: yes
   become: yes
   loop:
-    - libvirtd
     - tailscaled
 
+- name: programming tools
+  ansible.builtin.package:
+    name:
+      - bat
+      - bash-language-server
+      - shellcheck
+    state: latest
+
+- name: virtualization tools
+  ansible.builtin.package:
+    name:
+      #- iptables-nft CONFLICT WITH IPTABLES
+      - dnsmasq
+      - virtualbox
+        #- virtualbox-host-modules-arch ##TRY WITH VIRTUALBOX DISABLED
+      - libvirt
+      - virt-viewer
+      - dmidecode
+    state: latest

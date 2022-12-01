@@ -3,8 +3,12 @@
   ansible.builtin.import_tasks: packages.yml
   become: yes
 
-    #- name: include packages
-    #  ansible.builtin.import_tasks: aur.yml
+- name: include aur packages
+  ansible.builtin.import_tasks: aur.yml
+
+- name: make zsh default shell
+  ansible.builtin.command: '/usr/bin/chsh -s /usr/bin/zsh {{ user }}'
+  become: true
 
 - name: set authorized key for remote user copying it from current user
   ansible.posix.authorized_key:
@@ -14,11 +18,30 @@
   with_file:
     - cameron.pub
 
-- name: Create a ~/ssh directory if it does not exist
+- name: create xdg default dirs
+  ansible.builtin.command: xdg-user-dirs-update
+
+- name: Add user to the appropriate groups
+  ansible.builtin.user:
+    name: '{{ user }}'
+    groups: '{{ item }}'
+  become: true
+  loop:
+    - tgenv
+    - tfenv
+    - wheel
+
+- name: Create dirs
   ansible.builtin.file:
-    path: "/home/{{ user }}/.ssh/"
+    path: "/home/{{ user }}/{{ item }}"
     state: directory
     mode: '0700'
+  loop: 
+    - '.ssh'
+    - 'Books'
+    - 'Backups'
+    - 'Games'
+    - '.local/share/applications'
 
 - name: copy private key
   ansible.builtin.copy:
@@ -28,14 +51,18 @@
     group: "{{ user }}"
     mode: '0400'
 
-- name: create xdg default dirs
-  ansible.builtin.command: xdg-user-dirs-update
+- name: Template .local/share/applications/file.desktop
+  ansible.builtin.template:
+    src: 'file.desktop'
+    dest: '.local/share/applications/file.desktop'
 
-- name: Add user to the appropriate groups
-  ansible.builtin.user:
-    name: '{{ user }}'
-    groups: wheel
-  become: true
+- name: copy SMB config
+  ansible.builtin.copy:
+    src: "{{ lookup('env','HOME') }}/.config/smb"
+    dest: "/home/{{ user }}/.config/smb"
+    owner: "{{ user }}"
+    group: "{{ user }}"
+    mode: '0400'
 
 - name: clone password store
   ansible.builtin.git:
@@ -56,3 +83,30 @@
     path: "/home/{{ user }}/.cache/zsh/history"
     state: touch
     mode: '0644'
+
+- name: Add network shares
+  ansible.builtin.lineinfile:
+    path: '/etc/fstab'
+    line: '{{ item }}'
+  loop:
+    - '//10.10.10.9/Media      /home/cameron/Videos    cifs    uid=1000,gid=1000,credentials=/home/cameron/.config/smb,nofail,_netdev 0   0'
+    - '//10.10.10.9/Books      /home/cameron/Books     cifs    uid=1000,gid=1000,credentials=/home/cameron/.config/smb,nofail,_netdev 0   0'
+    - '//10.10.10.9/Pictures   /home/cameron/Pictures  cifs    uid=1000,gid=1000,credentials=/home/cameron/.config/smb,nofail,_netdev 0   0'
+    - '//10.10.10.9/Backups   /home/cameron/Backups  cifs    uid=1000,gid=1000,credentials=/home/cameron/.config/smb,nofail,_netdev 0   0'
+    - '//10.10.10.9/Games   /home/cameron/Games  cifs    uid=1000,gid=1000,credentials=/home/cameron/.config/smb,nofail,_netdev 0   0'
+    - '#10.10.10.9:/volume1/Media       /home/cameron/Videos    nfs    rw,relatime,nofail,_netdev,user 0   0'
+    - '#10.10.10.9:/volume1/Books       /home/cameron/Books     nfs    rw,relatime,nofail,_netdev,user 0   0'
+    - '#10.10.10.9:/volume1/Pictures    /home/cameron/Pictures  nfs    rw,relatime,nofail,_netdev,user 0   0'
+    - '#10.10.10.9:/volume1/Backups     /home/cameron/Backups   nfs    rw,relatime,nofail,_netdev,user 0   0'
+    - '#10.10.10.9:/volume1/Games       /home/cameron/Games     nfs    rw,relatime,nofail,_netdev,user 0   0'
+  become: true
+
+- name: Template intel igpu
+  ansible.builtin.template:
+    src: '20-intel.conf.jinja'
+    dest: '/etc/X11/xorg.conf.d/20-intel.conf'
+  when: igpu == 'intel' or igpu == 'all'
+  become: true
+
+- name: include dev tasks
+  ansible.builtin.import_tasks: dev.yml

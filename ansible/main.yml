@@ -2,53 +2,17 @@
 - hosts: default
   gather_facts: false
   vars:
+    igpu: intel
+    dgpu: amd
   roles:
     - base
-    - dev
     - laptop
       #- gaming
-          ####    - name: make zsh default shell
-          ####      ansible.builtin.command: /usr/bin/chsh -s /usr/bin/zsh
 
 # todo:
-# * ssh keys
 # * gpg keys
-# * paru and aur packages install
 # * st and dmenu install
 # * vim plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && :PlugInstall
-# enable docker
-# * remove graphics install since installer has it
-# * verify installer configs
-# * configure laptop-mode-tools
-#
-# */etc/X11/xorg.conf.d/20-intel.conf
-# ```Section "Device"
-#   Identifier "Intel Graphics"
-#   Driver "intel"
-#   Option "TearFree" "true"
-# EndSection```
-#
-# * mkdir dev/work && alias gtwork
-# * bluetooth: blacklist hci_uart to /etc/modprobe.d/blacklist.conf, then modprobe hci_uart after boot and start the bluetooth service with systemd
-# * fingprint sensor
-# * /etc/systemd/logind.conf has HandleLidSwitch=ignore
-# add aws profiles
-# add .local/share/applications
-# [Desktop Entry]
-# Type=Application
-# Name=File Manager
-# Exec=/usr/local/bin/st -e lfub %u
-# restic excludes file
-# mkdir Backups,Books
-# /etc/fstab
-# .config/smb
+# * configure tlp (in-use) or laptop-mode-tools or acpid
+# * HandleLidSwitch=suspend in /etc/systemd/logind.conf
 
-       # enable libvirtd, dnsmasq iptables-nft
-       # PV
-       # ssh keys from work
-       #
-       #
-# tfenv
-# tgenv sudo usermod -aG tgenv ${USER}
-# sudo usermod -aG tfenv ${USER}
-# don't install terraform or terragrunt

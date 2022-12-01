@@ -2,21 +2,21 @@
 
 export VAGRANT_DEFAULT_PROVIDER := "libvirt"
 
-test: init galaxy
+test:
   cd {{invocation_directory()}} && \
-  poetry run molecule test
-
-converge: init galaxy
-  cd {{invocation_directory()}} && \
-  poetry run molecule converge
+  just molecule test
 
 destroy: init
   cd {{invocation_directory()}} && \
-  poetry run molecule destroy
+  just molecule destroy
 
 verify: init
   cd {{invocation_directory()}} &&  \
-  poetry run molecule verify
+  just molecule verify
+
+molecule sequence: init galaxy
+  cd {{invocation_directory()}} && \
+  poetry run molecule {{sequence}}
 
 init:
   poetry install
@@ -26,3 +26,10 @@ galaxy:
 
 deploy: init
   poetry run ansible-playbook -kKi hosts.yml main.yml
+
+ssh:
+    vagrant ssh
+
+# get the ip of running VMs
+get-ip:
+    virsh net-dhcp-leases --network vagrant-libvirt
