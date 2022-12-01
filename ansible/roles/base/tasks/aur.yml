@@ -14,30 +14,30 @@
     name: '{{ item }}'
     state: present
   loop:
-    #- paru
-    #- pacdep
-    #- linode-cli
+    - paru
+    - pacdep
+    - linode-cli
     - tgenv
     - tfenv
     - ani-cli-git
     - arc-gtk-theme-git
-    #- arc-icon-theme-git
+    - arc-icon-theme-git
     - awless
-      #- betterlockscreen
+    - betterlockscreen
     - chromium-widevine
     - dockerfile-language-server
     - downgrade
     - hakuneko-desktop
-    #- jmtpfs
+    - jmtpfs
     - kind-bin
-    #- nerd-fonts-complete
-    #- slack-desktop
+    - nerd-fonts-complete
+    - slack-desktop
     - terraform-ls
-      #- talosctl
+    - talosctl
     - clusterctl-bin
-    #- davfs2
-    #- khal
-    #- vdirsyncer
+    - davfs2
+    - khal
+    - vdirsyncer
 
     #- zoom
     #protonup-git gamemode lib32-gamemode 

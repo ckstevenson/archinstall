@@ -42,9 +42,6 @@
     dest: '{{ item.dest }}'
   loop: 
     - { dest: '/home/{{ user }}/dev/archinstall', repo: 'git@github.com:ckstevenson/archinstall.git' }
-    - { dest: '/home/{{ user }}/dev/packer-templates-qemu', repo: 'git@github.com:ckstevenson/packer-templates-qemu.git' }
-    - { dest: '/home/{{ user }}/dev/tf-rancher', repo: 'git@github.com:ckstevenson/tf-rancher.git' }
-    - { dest: '/home/{{ user }}/dev/python-get-vm-info', repo: 'git@github.com:ckstevenson/python-get-vm-info.git' }
     - { dest: '/home/{{ user }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
     - { dest: '/home/{{ user }}/dev/dmenu', repo: 'git@github.com:ckstevenson/dmenu.git' }
     - { dest: '/home/{{ user }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
