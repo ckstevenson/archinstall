@@ -24,7 +24,7 @@ init:
 galaxy:
   poetry run ansible-galaxy collection install -r ./requirements.yml
 
-deploy: init
+deploy: init galaxy
   poetry run ansible-playbook -kKi hosts.yml main.yml
 
 ssh:

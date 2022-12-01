@@ -3,8 +3,8 @@
   ansible.builtin.import_tasks: packages.yml
   become: yes
 
-- name: include aur packages
-  ansible.builtin.import_tasks: aur.yml
+    #- name: include aur packages
+    #  ansible.builtin.import_tasks: aur.yml
 
 - name: make zsh default shell
   ansible.builtin.command: '/usr/bin/chsh -s /usr/bin/zsh {{ user }}'
@@ -27,8 +27,8 @@
     groups: '{{ item }}'
   become: true
   loop:
-    - tgenv
-    - tfenv
+    #- tgenv
+    #- tfenv
     - wheel
 
 - name: Create dirs

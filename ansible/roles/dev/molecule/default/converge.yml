@@ -1,9 +1,0 @@
----
-- name: Converge
-  hosts: all
-  vars:
-    gpu: 'vm'
-    user: 'vagrant'
-  roles:
-    - base
-    - dev
