@@ -117,6 +117,7 @@
       - python-pip
       - ansible-core
       - python-pipenv
+      - python-poetry
       - pyright
       - qemu
       #- terraform

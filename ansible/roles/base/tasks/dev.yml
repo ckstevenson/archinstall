@@ -45,7 +45,7 @@
     - { dest: '/home/{{ user }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
     - { dest: '/home/{{ user }}/dev/dmenu', repo: 'git@github.com:ckstevenson/dmenu.git' }
     - { dest: '/home/{{ user }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
-    - { dest: '/home/{{ user }}/dev/st', repo: 'https://github.com/MrFinchMkV/st.git' }
+    - { dest: '/home/{{ user }}/dev/st/', repo: 'git@github.com:ckstevenson/st.git' }
 
 - name: install vim plug
   ansible.builtin.get_url:
