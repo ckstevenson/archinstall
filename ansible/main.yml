@@ -2,8 +2,8 @@
 - hosts: localhost
   gather_facts: false
   vars:
-    igpu: intel
-    dgpu: amd
+    igpu: 'intel'
+    dgpu: 'amd'
   roles:
     #- base
       #- laptop
@@ -16,8 +16,10 @@
 # * copy firefox configs
 # * gnupass repository
 # * st and dmenu install
+# * paru makepkg -si
 # * vim plug: curl -fLo ~/.vim/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim && :PlugInstall
-# * configure tlp (in-use) or laptop-mode-tools or acpid
+# * configure powertop --auto-tune --auto-cpufreq (in-use), tlp or laptop-mode-tools or acpid
 # * HandleLidSwitch=suspend in /etc/systemd/logind.conf
-# * implement gaming playbook features beyond gpu and cleanup igpu situation
-# * 
+# * https://www.protondb.com/help/improving-performance
+# * cleanup igpu driver choices
+# * cleanup igpu placement

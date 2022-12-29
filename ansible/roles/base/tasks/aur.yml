@@ -15,6 +15,7 @@
     state: present
   loop:
     - paru
+    - android-studio
     - pacdep
     - linode-cli
     - tgenv

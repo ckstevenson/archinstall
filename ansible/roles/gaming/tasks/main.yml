@@ -7,10 +7,8 @@
   loop:
     - steam
     - lutris
+    - wine
   become: true
-
-    #- name: steam btrfs subvolme
-    #ansible.builtin.command: btrfs subvolume create '{{ home }}/.steam/steam/steamapps/common'
 
 - name: AMD graphics
   ansible.builtin.package:
@@ -23,16 +21,23 @@
   become: true
   when: dgpu == 'amd' or dgpu == 'all'
 
-    #- name: Intel graphics
-    #  ansible.builtin.package:
-    #    name:
-    #      - xf86-video-intel
-    #      - intel-gpu-tools
-    #      - libva-utils
-    #      - libva-intel-driver
-    #    state: present
-    #  when: dgpu == 'intel' or dgpu == 'all'
-    #
+- name: Intel graphics
+  ansible.builtin.package:
+    name:
+      - xf86-video-intel
+      - intel-gpu-tools
+      - libva-utils
+      - libva-intel-driver
+    state: present
+  when: dgpu == 'intel' or dgpu == 'all'
+
+- name: Template intel igpu
+  ansible.builtin.template:
+    src: '20-intel.conf.jinja'
+    dest: '/etc/X11/xorg.conf.d/20-intel.conf'
+  when: igpu == 'intel' or igpu == 'all'
+  become: true
+  
     #- name: Nvidia graphics
     #  ansible.builtin.package:
     #    name:
@@ -60,4 +65,3 @@
       - mesa-utils
     state: present
   become: true
-

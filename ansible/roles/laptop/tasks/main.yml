@@ -3,8 +3,8 @@
   ansible.builtin.package:
     name:
       #- acpid
+      #- tlp
       - powertop
-      - tlp
       - bluez
       - bluez-utils
       - fprintd
@@ -14,12 +14,10 @@
 
 - name: Enable services
   ansible.builtin.systemd:
-    name:
-      - bluetoothd
-        #      - acpid
-        #- laptop-mode
-      - powertop
-      - tlp
+    name: bluetooth
+      #- acpid
+      #- laptop-mode
+      #- tlp
     enabled: yes
   become: yes
 

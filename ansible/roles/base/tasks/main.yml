@@ -101,12 +101,5 @@
     - '#10.10.10.9:/volume1/Games       /home/cameron/Games     nfs    rw,relatime,nofail,_netdev,user 0   0'
   become: true
 
-- name: Template intel igpu
-  ansible.builtin.template:
-    src: '20-intel.conf.jinja'
-    dest: '/etc/X11/xorg.conf.d/20-intel.conf'
-  when: igpu == 'intel' or igpu == 'all'
-  become: true
-
 - name: include dev tasks
   ansible.builtin.import_tasks: dev.yml
