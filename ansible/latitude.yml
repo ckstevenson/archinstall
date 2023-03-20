@@ -1,0 +1,9 @@
+---
+- hosts: latitude
+  gather_facts: false
+  vars:
+    igpu: 'intel'
+  roles:
+    - base
+    - laptop
+    - gaming
