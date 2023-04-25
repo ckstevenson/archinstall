@@ -1,0 +1,6 @@
+[Unit]
+Description=nextcloudcmd sync job
+
+[Service]
+Type=oneshot
+ExecStart=/home/cameron/.local/bin/nextcloud-sync

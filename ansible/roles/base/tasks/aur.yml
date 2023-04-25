@@ -17,28 +17,34 @@
     - paru
     - android-studio
     - pacdep
+    - diceware
+    - davmail
     - linode-cli
     - tgenv
     - tfenv
     - ani-cli-git
     - arc-gtk-theme-git
     - arc-icon-theme-git
+    - gnome-ssh-askpass3
     - awless
     - betterlockscreen
+    - noisetorch
     - chromium-widevine
     - dockerfile-language-server
     - downgrade
     - hakuneko-desktop
+      #- ferdium
     - jmtpfs
     - kind-bin
     - nerd-fonts-complete
-    - slack-desktop
     - terraform-ls
     - talosctl
     - clusterctl-bin
     - davfs2
     - khal
     - vdirsyncer
+    - zoom
+    - slack-desktop
+    - teams
 
-    #- zoom
     #protonup-git gamemode lib32-gamemode 

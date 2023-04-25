@@ -30,6 +30,7 @@
     #- tgenv
     #- tfenv
     - wheel
+    - adm
 
 - name: Create dirs
   ansible.builtin.file:
@@ -103,3 +104,18 @@
 
 - name: include dev tasks
   ansible.builtin.import_tasks: dev.yml
+
+
+- name: enable and start services
+  ansible.builtin.systemd:
+    name: "{{ item }}"
+    enabled: true
+  loop:
+    - snapper-timeline.timer
+    - snapper-cleanup.timer
+
+- name: don't require ssh password prompt for multiple terminal sessions
+  ansible.builtin.lineinfile:
+    path: /etc/sudoers
+    line: 'Defaults !tty_tickets'
+  become: true

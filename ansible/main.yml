@@ -23,3 +23,5 @@
 # * https://www.protondb.com/help/improving-performance
 # * cleanup igpu driver choices
 # * cleanup igpu placement
+# virsh net-autostart --network default
+# snapper configs

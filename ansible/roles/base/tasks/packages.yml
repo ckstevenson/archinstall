@@ -27,106 +27,121 @@
         #- catdoc
         #- odt2txt
         #- docx2txt
-      - telegram-desktop
-      - aws-cli-v2
-      - pv
-      - diskonaut
-      - w3m
-      - aerc
-      - ntfs-3g
-      - cifs-utils
-      - lf
-      - nfs-utils
-      - strace
-      - element-desktop
-      - nextcloud-client
-      - ffmpegthumbnailer
-      - rclone
-      - nmap
-      - restic
-      - ueberzug
-      - gimp
-      - helm
-      - atool
-      - lynx
+        #- terraform
+        #- terragrunt
       - acpi
-      - smartmontools
-      - tailscale
-      - python-pdftotext
-      - mediainfo
-      - transmission-cli
-      - dnsutils
+      - aerc
+      - alacritty
+      - ansible
+      - ansible-core
+      - atool
+      - aws-cli-v2
+      - aws-vault
       - bolt
-      - noto-fonts-cjk
-      - scrot
+      - catimg
       - chromium
+      - cifs-utils
       - discord
+      - diskonaut
+      - dnsutils
+      - docker
+      - docker-compose
+      - dos2unix
       - dunst
-      - signal-desktop
-      - xorg
-      - libreoffice-still
-      - hunspell
-      - hunspell-en_us
-      - hunspell-de
+      - element-desktop
+      - fd
+      - ffmpegthumbnailer
       - firefox
+      - firefox-tridactyl
+      - fprintd
       - fwupd
-      - glances
+      - gimp
       - git
+      - git
+      - github-cli
+      - glances
+      - go-tools
+      - gopls
+      - gnome-themes-extra
       - gtk2
+      - gtk-engine-murrine
+      - helm
+      - hunspell
+      - hunspell-de
+      - hunspell-en_us
+      - jq
+      - just
+      - kubectl
+      - lf
+      - libreoffice-still
+      - lnav
       - lxappearance
+      - lynx
+      - mariadb
+      - mediainfo
+      - molecule
       - neovim
+      - nextcloud-client
+      - nfs-utils
+      - nmap
+      - noto-fonts-cjk
+      - ntfs-3g
       - numlockx
+      - packer
+      - pacman-contrib
       - pass
+      - peco
       - pcmanfm
+      - podman
+      - podman-compose
+      - polybar
       - pulsemixer
+      - pulseaudio-bluetooth
+      - pv
+      - pyenv
+      - pyright
+        #- python-heatclient
+      - python-openstack
+      - python-pdftotext
+      - python-pip
+      - python-pipenv
+      - python-poetry
+      - qemu
+      - rclone
+      - restic
+      - ripgrep-all
       - rsync
+      - scrot
+      - signal-desktop
+      - smartmontools
+      - snapper
+      - snap-pac
       - sshpass
+      - strace
       - sxhkd
       - sxiv
+      - tailscale
+      - tmux
+      - transmission-cli
       - ttf-dejavu
       - ttf-liberation
       - udisks2
+      - ueberzug
       - unclutter
+      - vagrant
+      - virt-install
+      - virt-manager
+      - w3m
       - wget
+      - wol
       - xclip
-      - polybar
       - xdg-user-dirs
+      - xorg
       - yubikey-manager
       - zathura
       - zathura-pdf-mupdf
       - zsh
       - zsh-completions
-      - ansible
-      - mariadb
-      - go-tools
-      - aws-vault
-      - podman
-      - podman-compose
-      - docker
-      - docker-compose
-      - fprintd
-      - git
-      - github-cli
-      - gopls
-      - jq
-      - just
-      - kubectl
-      - packer
-      - pacman-contrib
-      - pyenv
-      - python-pip
-      - ansible-core
-      - python-pipenv
-      - python-poetry
-      - pyright
-      - qemu
-      #- terraform
-      #- terragrunt
-      - tmux
-      - vagrant
-      - virt-install
-      - virt-manager
-      - wol
     state: present
 
 - name: WM tools

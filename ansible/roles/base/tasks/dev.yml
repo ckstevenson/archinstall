@@ -40,28 +40,39 @@
     repo: '{{ item.repo }}'
     accept_hostkey: yes # security risk
     dest: '{{ item.dest }}'
-  loop: 
+  loop:
     - { dest: '/home/{{ user }}/dev/archinstall', repo: 'git@github.com:ckstevenson/archinstall.git' }
     - { dest: '/home/{{ user }}/.local/bin/', repo: 'git@github.com:ckstevenson/scripts.git' }
     - { dest: '/home/{{ user }}/dev/dmenu', repo: 'git@github.com:ckstevenson/dmenu.git' }
     - { dest: '/home/{{ user }}/dev/paru', repo: 'https://aur.archlinux.org/paru.git' }
     - { dest: '/home/{{ user }}/dev/st/', repo: 'git@github.com:ckstevenson/st.git' }
+      #- { dest: '/home/{{ user }}/dev/st/', repo: 'git@github.com:ckstevenson/st.git' }
 
 - name: install vim plug
   ansible.builtin.get_url:
     url: https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
     dest: '/home/{{ user }}/.local/share/nvim/site/autoload/plug.vim'
 
-- name: create ssh-agent service
+- name: create --user services
   ansible.builtin.copy:
-    src: ssh-agent.service
-    dest: '/home/{{ user }}/.config/systemd/user/ssh-agent.service'
+    src: '{{ item }}'
+    dest: '/home/{{ user }}/.config/systemd/user/{{ item }}'
+  loop:
+    - vdirsyncer.timer
+    - vdirsyncer.service
+    - nextcloud-sync.timer
+    - nextcloud-sync.service
+    - ssh-agent.service
 
 - name: enable user services
   ansible.builtin.systemd:
     name: ssh-agent
     scope: user
     enabled: true
+  loop: 
+    - ssh-agent 
+    - vdirsyncer.timer
+    - nextcloud-sync.timer
 
       #- name: Vagrant plugins
       #  ansible.builtin.shell: vagrant plugin install vagrant-libvirt
