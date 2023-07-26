@@ -36,6 +36,7 @@
       #- ferdium
     - jmtpfs
     - kind-bin
+    - ghorg
     - nerd-fonts-complete
     - terraform-ls
     - talosctl
